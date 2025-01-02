@@ -40,6 +40,7 @@
         <div class="fas fa-search" id="search-btn"></div>
         <div class="fas fa-shopping-cart" id="cart-btn"></div>
         <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-sign-out-alt" id="logout-btn"></div>
       </div>
 
       <div class="search-form">
@@ -54,7 +55,8 @@
         <div class="cart-total">
           <h3>Total: <span id="cart-total-amount">$0.00</span></h3>
         </div>
-        <a href="#" class="btn">Checkout now</a>
+        <a href="#" class="btn checkout">Checkout now</a>
+        
       </div>
     </header>
 
@@ -429,5 +431,53 @@
       <div class="credit">Created by <span>Giulyano Santos</span></div>
     </section>
     <script src="./js/main.js"></script>
+    
+    <script>
+      
+    </script>
+
+    <dialog id="checkout-dialog" class="checkout-dialog">
+      <form method="dialog" class="checkout-form">
+        <h2>Checkout</h2>
+        
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div id="dialog-cart-items"></div>
+          <div class="total">
+            Total: <span id="dialog-total-amount">$0.00</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Delivery Address:</label>
+          <textarea id="address" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="payment">Payment Method:</label>
+          <select id="payment" required>
+            <option value="">Select payment method</option>
+            <option value="credit">Credit Card</option>
+            <option value="debit">Debit Card</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn">Complete Order</button>
+          <button type="button" class="btn cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
   </body>
 </html>

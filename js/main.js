@@ -23,10 +23,20 @@ document.querySelector('#cart-btn').onclick = () => {
   searchForm.classList.remove('active');
 }
 
+let logoutBtn = document.querySelector('#logout-btn')
+
+document.querySelector('#logout-btn').onclick = () => {
+  if (confirm('Are you sure you want to logout?')) {
+    window.location.href = 'login.html';
+  }
+}
+
 window.onscroll = () => {
   navBar.classList.remove('active');
   searchForm.classList.remove('active');
   cartItem.classList.remove('active');
+  cart = [];
+  updateCart();
 }
 
 // Cart functionality
@@ -99,4 +109,82 @@ document.addEventListener('DOMContentLoaded', () => {
       addToCart(name, price, quantity);
     });
   });
+});
+
+// Add this function to handle the checkout process
+function checkout() {
+  const modal = document.getElementById('checkout-modal');
+  const closeBtn = document.querySelector('.close-btn');
+  const checkoutForm = document.getElementById('checkout-form');
+
+  // Display the modal
+  modal.style.display = 'block';
+
+  // Close the modal when the user clicks on the close button
+  closeBtn.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  // Handle form submission
+  checkoutForm.onsubmit = (e) => {
+    e.preventDefault();
+    alert('Order confirmed! Thank you for your purchase.');
+    modal.style.display = 'none';
+    // Clear the cart after confirming the order
+    cart = [];
+    updateCart();
+  };
+
+  // Close the modal when the user clicks anywhere outside of the modal
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+// Add event listener for the checkout button
+document.querySelector('.btn.checkout').onclick = (e) => {
+  e.preventDefault();
+  checkout();
+};
+
+// Add event listener for checkout button
+document.querySelector('.checkout').addEventListener('click', (e) => {
+  e.preventDefault();
+  const dialog = document.getElementById('checkout-dialog');
+  const dialogCartItems = document.getElementById('dialog-cart-items');
+  const dialogTotal = document.getElementById('dialog-total-amount');
+  
+  // Populate cart items in dialog
+  dialogCartItems.innerHTML = '';
+  let total = 0;
+  
+  cart.forEach(item => {
+    total += item.price * item.quantity;
+    dialogCartItems.innerHTML += `
+      <div class="cart-item">
+        <h4>${item.name}</h4>
+        <p>Quantity: ${item.quantity}</p>
+        <p>Price: $${(item.price * item.quantity).toFixed(2)}</p>
+      </div>
+    `;
+  });
+  
+  dialogTotal.textContent = `$${total.toFixed(2)}`;
+  dialog.showModal();
+  
+  // Handle dialog close
+  const cancelBtn = dialog.querySelector('.cancel');
+  cancelBtn.onclick = () => dialog.close();
+  
+  // Handle form submission
+  const form = dialog.querySelector('form');
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    alert('Order placed successfully!');
+    cart = [];
+    updateCart();
+    dialog.close();
+  };
 });
